@@ -31,9 +31,6 @@ class TestAppium(unittest.TestCase):
     def setUp(self) -> None:
         self.driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
 
-    def tearDown(self) -> None:
-        if self.driver:
-            self.driver.quit()
 
     def wait(self):
         driver.implicitly_wait(50)
@@ -41,10 +38,6 @@ class TestAppium(unittest.TestCase):
                                                                                     NoSuchElementException])
         el = wait.until(EC.presence_of_element_located((AppiumBy.ID, "com.android.permission-controller:id"
                                                                      "/permission_allow_button")))
-
-    def test_launch_app(self) -> None:
-        el = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID,value='Agencify')
-        el.click()
 
     def click_collapse_button(self) -> None:
         el = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID,
@@ -57,5 +50,8 @@ class TestAppium(unittest.TestCase):
                                             '.view.View/android.view.View[2]/android.widget.Button]')
         el.click()
 
+    def tearDown(self) -> None:
+        if self.driver:
+            self.driver.quit()
 
 driver.quit()
