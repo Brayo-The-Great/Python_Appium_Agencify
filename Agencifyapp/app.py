@@ -27,6 +27,7 @@ class TestAppium(unittest.TestCase):
     def setUp(self) -> None:
         self.driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
 
+        self.driver.implicitly_wait(10)
     def tearDown(self) -> None:
         if self.driver:
             self.driver.quit()
@@ -38,19 +39,29 @@ class TestAppium(unittest.TestCase):
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Login"]')
         el.click()
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Email"]').send_keys("eva.mutuku@agencify.insure")
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Email"]').send_keys(
+            "eva.mutuku@agencify.insure")
         el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Password"]').send_keys("123456789")
         el.click()
 
-        self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Login"]')
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Login"]')
         el.click()
 
+        self.driver.implicitly_wait(10)
 
-    # def Create_a_quote(self):
-    #     el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Get a quote"]')
-    #     el.click()
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Allow"]')
+        el.click()
+
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="ok"]')
+        el.click()
+
+        self.create_quote()
+
+    def create_quote(self):
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Agencify"]')
+        el.click()
 
 
 if __name__ == '__main__':
