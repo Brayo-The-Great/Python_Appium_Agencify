@@ -71,7 +71,7 @@ class TestAppium(unittest.TestCase):
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='(//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view"])[4]')
         el.click()
-        self.driver.implicitly_wait(40)
+        self.driver.implicitly_wait(30)
 
 
 if __name__ == '__main__':
