@@ -16,6 +16,7 @@ capabilities = dict(
     deviceName='OPPO CPH2473',
     language='en',
     locale='US',
+    autoGrantPermissions='true',
     app=r'C:\Users\PC\Desktop\TESTAPKs\20350.apk'
 
 )
@@ -28,6 +29,7 @@ class TestAppium(unittest.TestCase):
         self.driver = webdriver.Remote(appium_server_url, options=UiAutomator2Options().load_capabilities(capabilities))
 
         self.driver.implicitly_wait(10)
+
     def tearDown(self) -> None:
         if self.driver:
             self.driver.quit()
@@ -51,17 +53,25 @@ class TestAppium(unittest.TestCase):
 
         self.driver.implicitly_wait(10)
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Allow"]')
-        el.click()
-
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="ok"]')
-        el.click()
-
         self.create_quote()
 
     def create_quote(self):
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Agencify"]')
+        self.driver.implicitly_wait(30)
+
+        # el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Agencify"]')
+        # el.click()
+        #
+        # el = self.driver.find_element(by=AppiumBy.XPATH,
+        #                               value='//androidx.cardview.widget.CardView[@resource-id="insure.agencify.agencify:id/quotes"]/android.widget.LinearLayout')
+        # el.click()
+        #
+        # el = self.driver.find_element(by=AppiumBy.XPATH,
+        #                               value='//android.widget.ImageButton[@content-desc="Navigate up"]')
+        # el.click()
+
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='(//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view"])[4]')
         el.click()
+        self.driver.implicitly_wait(40)
 
 
 if __name__ == '__main__':
