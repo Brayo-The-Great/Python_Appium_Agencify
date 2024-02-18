@@ -34,7 +34,7 @@ class TestAppium(unittest.TestCase):
         if self.driver:
             self.driver.quit()
 
-    def test_close_modal(self) -> None:
+    def test_agencify_staging_app(self) -> None:
         self.user_login()
 
     def user_login(self):
@@ -50,28 +50,49 @@ class TestAppium(unittest.TestCase):
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Login"]')
         el.click()
-
-        self.driver.implicitly_wait(10)
+        self.driver.implicitly_wait(60)
 
         self.create_quote()
 
     def create_quote(self):
-        self.driver.implicitly_wait(30)
+        el = self.driver.find_element(by=AppiumBy.XPATH,
+                                      value='(//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view"])[4]')
+        el.click()
+        self.driver.implicitly_wait(60)
 
-        # el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.ImageButton[@content-desc="Agencify"]')
-        # el.click()
-        #
-        # el = self.driver.find_element(by=AppiumBy.XPATH,
-        #                               value='//androidx.cardview.widget.CardView[@resource-id="insure.agencify.agencify:id/quotes"]/android.widget.LinearLayout')
-        # el.click()
-        #
-        # el = self.driver.find_element(by=AppiumBy.XPATH,
-        #                               value='//android.widget.ImageButton[@content-desc="Navigate up"]')
-        # el.click()
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Motor Private"]')
+        el.click()
+        self.driver.implicitly_wait(60)
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='(//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view"])[4]')
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="COMP"]')
+        el.click()
+        self.driver.implicitly_wait(60)
+
+        el = self.driver.find_element(by=AppiumBy.XPATH,
+                                      value='//android.widget.ScrollView/android.widget.EditText[1]').send_keys(
+            "KQA 324S")
+        el.click()
+
+        el = self.driver.find_element(by=AppiumBy.XPATH,
+                                      value='//android.widget.ScrollView/android.widget.EditText[2]').send_keys(
+            "3000000")
+        el.click()
+
+        el = self.driver.find_element(by=AppiumBy.XPATH,
+                                      value='//android.widget.ScrollView/android.view.View[1]/android.widget.EditText/android.widget.Button')
+        el.click()
+        self.driver.implicitly_wait(60)
+
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@content-desc="Sun, Feb 18"]')
+        el.click()
+
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="OK"]')
         el.click()
         self.driver.implicitly_wait(30)
+
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
+        el.click()
+        self.driver.implicitly_wait(90)
 
 
 if __name__ == '__main__':
