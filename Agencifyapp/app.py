@@ -6,6 +6,7 @@ from appium.options.android import UiAutomator2Options
 from appium.options.common import AppiumOptions
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import ElementNotVisibleException, NoSuchElementException
 
@@ -48,25 +49,26 @@ class TestAppium(unittest.TestCase):
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Password"]').send_keys("123456789")
         el.click()
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Login"]')
+        el = WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Login"]')))
         el.click()
-        self.driver.implicitly_wait(60)
 
         self.create_quote()
 
     def create_quote(self):
-        el = self.driver.find_element(by=AppiumBy.XPATH,
-                                      value='(//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view"])[4]')
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '(//android.widget.ImageView['
+                       '@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view'
+                       '"])[4]')))
         el.click()
-        self.driver.implicitly_wait(60)
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Motor Private"]')
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Motor Private"]')))
         el.click()
-        self.driver.implicitly_wait(60)
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="COMP"]')
+        el = WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="COMP"]')))
         el.click()
-        self.driver.implicitly_wait(60)
 
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[1]').send_keys(
@@ -79,7 +81,8 @@ class TestAppium(unittest.TestCase):
         el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH,
-                                      value='//android.widget.ScrollView/android.view.View[1]/android.widget.EditText/android.widget.Button')
+                                      value='//android.widget.ScrollView/android.view.View[''1]/android.widget'
+                                            '.EditText/android.widget.Button')
         el.click()
         self.driver.implicitly_wait(60)
 
@@ -92,7 +95,14 @@ class TestAppium(unittest.TestCase):
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
         el.click()
-        self.driver.implicitly_wait(90)
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '(//android.widget.ImageButton[@content-desc="Show dropdown menu"])[1]')))
+        el.click()
+
+        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+        #     (By.XPATH, '//*[@text="PFS TRAILERS"]')))
+        # el.click()
 
 
 if __name__ == '__main__':
