@@ -97,12 +97,51 @@ class TestAppium(unittest.TestCase):
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '(//android.widget.ImageButton[@content-desc="Show dropdown menu"])[1]')))
+            (By.XPATH, '//*[@text="Make"]'))).send_keys("BMW")
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/layoutInfo"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys("X7")
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Body type"]'))).send_keys("STATION WAGON")
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/layoutInfo"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '(//android.widget.ImageButton[@resource-id="insure.agencify.agencify:id/text_input_end_icon"])[4]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//*[@text="2024"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="SET"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/next"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[1]')))
         el.click()
 
         # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-        #     (By.XPATH, '//*[@text="PFS TRAILERS"]')))
+        #     (By.XPATH, '(//*[@text=""]')))
         # el.click()
+
+
 
 
 if __name__ == '__main__':
