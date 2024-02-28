@@ -1,6 +1,7 @@
 import unittest
 from time import sleep
 from typing import Any, Dict
+from datetime import datetime
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.options.common import AppiumOptions
@@ -86,7 +87,7 @@ class TestAppium(unittest.TestCase):
         el.click()
         self.driver.implicitly_wait(60)
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@content-desc="Sun, Feb 18"]')
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@content-desc="Wed, 28 Feb"]')
         el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="OK"]')
@@ -105,7 +106,9 @@ class TestAppium(unittest.TestCase):
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys("X7")
+            (By.XPATH,
+             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys(
+            "X7")
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
@@ -117,7 +120,8 @@ class TestAppium(unittest.TestCase):
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '(//android.widget.ImageButton[@resource-id="insure.agencify.agencify:id/text_input_end_icon"])[4]')))
+            (By.XPATH,
+             '(//android.widget.ImageButton[@resource-id="insure.agencify.agencify:id/text_input_end_icon"])[4]')))
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
@@ -133,15 +137,19 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/next"]')))
         el.click()
 
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+        el = WebDriverWait(self.driver, 180).until(EC.element_to_be_clickable(
             (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[1]')))
         el.click()
 
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/buy"]')))
+        el.click()
+
+        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(By.XPATH, '//*[@text="Select a client"]'))
+
         # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-        #     (By.XPATH, '(//*[@text=""]')))
+        #     (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/addClien"]')))
         # el.click()
-
-
 
 
 if __name__ == '__main__':

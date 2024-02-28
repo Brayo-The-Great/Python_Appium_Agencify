@@ -44,7 +44,7 @@ Cover start date;
     XPATH = //android.widget.ScrollView/android.view.View[1]/android.widget.EditText/android.widget.Button
 
 The Cover start date;
-    XPATH = //android.widget.TextView[@content-desc="Sun, Feb 18"]
+    XPATH = //android.widget.TextView[@content-desc="Tue, 27 Feb"]]
     ACCESIBILITY_ID = Sun, Feb 18
 
 ------------------------------
