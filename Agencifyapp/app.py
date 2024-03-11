@@ -19,7 +19,7 @@ capabilities = dict(
     language='en',
     locale='US',
     autoGrantPermissions='true',
-    app=r'C:\Users\PC\Desktop\TESTAPKs\20350.apk'
+    app=r'C:\Users\PC\Desktop\TESTAPKs\staging20348.apk'
 
 )
 
@@ -87,7 +87,9 @@ class TestAppium(unittest.TestCase):
         el.click()
         self.driver.implicitly_wait(60)
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//android.widget.TextView[@content-desc="Wed, 28 Feb"]')
+        current_date = datetime.now().strftime('%a, %d %b')  # Format like 'Wed, 28 Feb'
+        xpath = f'//android.widget.TextView[@content-desc="{current_date}"]'
+        el = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
         el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="OK"]')
@@ -145,11 +147,90 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/buy"]')))
         el.click()
 
-        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(By.XPATH, '//*[@text="Select a client"]'))
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.Button[@resource-id="insure.agencify.agencify:id/btn_close_dialog_amend_cover_date"]')))  # Got it dialogue pop up
+        el.click()
 
-        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-        #     (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/addClien"]')))
-        # el.click()
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.Button[@resource-id="insure.agencify.agencify:id/addClien"]')))  # Select a client button
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.Button[@resource-id="insure.agencify.agencify:id/addClient"]')))  # New client button
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.ImageButton[@content-desc="Show drop-down menu"]')))  # Client Type button
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/firstName"]')))  # Individual button
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/firstName"]'))).send_keys(
+            "QA")  # First Name
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/last_name"]'))).send_keys(
+            "ONE")  # Last Name
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/mobile"]'))).send_keys(
+            "0759404954")  # Mobile Number
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/id_no"]'))).send_keys(
+            "64775697")  # National ID
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/pin"]'))).send_keys(
+            "A865356896J")  # KRA PIN
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/email"]'))).send_keys(
+            "waititubrian9@gmail.com")  # Email
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.RadioButton[@resource-id="insure.agencify.agencify:id/male"]')))  # Gender - Male
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.Button[@resource-id="insure.agencify.agencify:id/save_client"]')))  # Save button
+        el.click()
+
+        user_input = input("Please enter the code sent to your phone number: ")
+        code = user_input  # Example code
+        if len(user_input) != 4:
+            print("Error: The code should be exactly 4 characters long.")
+            exit()
+        element1 = self.driver.find_element(By.XPATH,
+                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[1]/android.view.View/android.view.View')
+        element2 = self.driver.find_element(By.XPATH,
+                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]/android.view.View')
+        element3 = self.driver.find_element(By.XPATH,
+                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[3]/android.view.View')
+        element4 = self.driver.find_element(By.XPATH,
+                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[4]/android.view.View')
+
+        # Sending the code to each input field
+        element1.send_keys(code[0])
+        element2.send_keys(code[1])
+        element3.send_keys(code[2])
+        element4.send_keys(code[3])
 
 
 if __name__ == '__main__':
