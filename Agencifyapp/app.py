@@ -3,6 +3,8 @@ from time import sleep
 from typing import Any, Dict
 from datetime import datetime
 from appium import webdriver
+from appium.webdriver.common.touch_action import TouchAction
+import time
 from appium.options.android import UiAutomator2Options
 from appium.options.common import AppiumOptions
 from appium.webdriver.common.appiumby import AppiumBy
@@ -212,26 +214,35 @@ class TestAppium(unittest.TestCase):
              '//android.widget.Button[@resource-id="insure.agencify.agencify:id/save_client"]')))  # Save button
         el.click()
 
-        user_input = input("Please enter the code sent to your phone number: ")
-        code = user_input  # Example code
-        if len(user_input) != 4:
-            print("Error: The code should be exactly 4 characters long.")
-            exit()
-        element1 = self.driver.find_element(By.XPATH,
-                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[1]/android.view.View/android.view.View')
-        element2 = self.driver.find_element(By.XPATH,
-                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]/android.view.View')
-        element3 = self.driver.find_element(By.XPATH,
-                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[3]/android.view.View')
-        element4 = self.driver.find_element(By.XPATH,
-                                            '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[4]/android.view.View')
+        # user_input = input("Please enter the code sent to your phone number: ")
+        # code = user_input  # Example code
+        # if len(user_input) != 4:
+        #     print("Error: The code should be exactly 4 characters long.")
+        #     exit()
+        #
+        # print(f"Entering OTP: {code}")
+        #
+        # # Assuming this is the correct way to fetch the elements, adjust if needed
+        # element1 = self.driver.find_element(By.XPATH,
+        #                                     '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[1]/android.view.View')
+        # element2 = self.driver.find_element(By.XPATH,
+        #                                     '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]/android.view.View')
+        # element3 = self.driver.find_element(By.XPATH,
+        #                                     '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[3]/android.view.View')
+        # element4 = self.driver.find_element(By.XPATH,
+        #                                     '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[4]/android.view.View')
+        #
+        # # Sending the code to each input field
+        # element1.send_keys(code[0])
+        # # Add a short delay between entering each digit, adjust if needed
+        # time.sleep(1)
+        # element2.send_keys(code[1])
+        # time.sleep(1)
+        # element3.send_keys(code[2])
+        # time.sleep(1)
+        # element4.send_keys(code[3])
 
-        # Sending the code to each input field
-        element1.send_keys(code[0])
-        element2.send_keys(code[1])
-        element3.send_keys(code[2])
-        element4.send_keys(code[3])
-
+____________________
 
 if __name__ == '__main__':
     unittest.main()
