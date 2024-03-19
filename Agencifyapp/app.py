@@ -242,7 +242,7 @@ class TestAppium(unittest.TestCase):
         # time.sleep(1)
         # element4.send_keys(code[3])
 
-____________________
+
 
 if __name__ == '__main__':
     unittest.main()
