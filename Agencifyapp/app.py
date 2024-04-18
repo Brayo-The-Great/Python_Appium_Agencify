@@ -17,15 +17,17 @@ capabilities = dict(
     platformName='Android',
     automationName='uiautomator2',
     platformVersion='14.0',
-    deviceName='Android',
+    deviceName='emulator-5554',
     language='en',
     locale='US',
     autoGrantPermissions='true',
-    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/20348.apk'
+    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/2.12.18.0staging.apk'
 
 )
 
-appium_server_url = 'http://localhost:4723'
+print(capabilities)
+
+appium_server_url = 'http://127.0.0.1:4723'
 
 
 class TestAppium(unittest.TestCase):
@@ -39,26 +41,27 @@ class TestAppium(unittest.TestCase):
             self.driver.quit()
 
     def test_agencify_staging_app(self) -> None:
-        self.user_login()
 
-    def user_login(self):
+        self.login_screen()
+
+    def login_screen(self):
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Login"]')
         el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Email"]').send_keys(
-            "eva.mutuku@agencify.insure")
+            "brian.muraya@agencify.insure")
         el.click()
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Password"]').send_keys("123456789")
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Password"]').send_keys("12345678")
         el.click()
 
         el = WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Login"]')))
         el.click()
 
-        self.create_quote()
+        self.get_quote_screen()
 
-    def create_quote(self):
+    def get_quote_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '(//android.widget.ImageView['
                        '@resource-id="insure.agencify.agencify:id/navigation_bar_item_icon_view'
@@ -69,31 +72,32 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//*[@text="Motor Private"]')))
         el.click()
 
+        self.cover_type_screen()
+
+    def cover_type_screen(self):
         el = WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="COMP"]')))
         el.click()
 
+        self.create_quote_screen()
+
+    def create_quote_screen(self):
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[1]').send_keys(
             "KQA 324S")
-        el.click()
-
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[2]').send_keys(
             "3000000")
-        el.click()
-
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.view.View[''1]/android.widget'
                                             '.EditText/android.widget.Button')
         el.click()
-        self.driver.implicitly_wait(90)
+        self.driver.implicitly_wait(60)
 
-        current_date = datetime.now().strftime('%a, %d %b')  # Format like 'Wed, 28 Feb'
-        xpath = f'//android.widget.TextView[@content-desc="{current_date}"]'
-
-        el = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
-        el.click()
+        # current_date = datetime.now().strftime('%a, %d %b')  # Format like 'Wed, 28 Feb'
+        # xpath = f'//android.widget.TextView[@content-desc="{current_date}"]'
+        # el = self.driver.find_element(by=AppiumBy.XPATH, value=xpath)
+        # el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="OK"]')
         el.click()
@@ -102,9 +106,11 @@ class TestAppium(unittest.TestCase):
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
         el.click()
 
+        self.complete_information_screen()
+
+    def complete_information_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Make"]'))).send_keys("BMW")
-        el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/layoutInfo"]')))
@@ -114,11 +120,9 @@ class TestAppium(unittest.TestCase):
             (By.XPATH,
              '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys(
             "X7")
-        el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Body type"]'))).send_keys("STATION WAGON")
-        el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/layoutInfo"]')))
@@ -142,20 +146,43 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/next"]')))
         el.click()
 
+        self.quote_comparison_screen()
+
+    def quote_comparison_screen(self):
         el = WebDriverWait(self.driver, 180).until(EC.element_to_be_clickable(
             (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[1]')))
         el.click()
 
+        self.quote_details_screen()
+
+    def quote_details_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/buy"]')))
         el.click()
 
-        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(By.XPATH, '//*[@text="Select a client"]'))
+        self.complete_schedules_details_screen()
 
-        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-        #     (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/addClien"]')))
-        # el.click()
+    def complete_schedules_details_screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.Button[@resource-id="insure.agencify.agencify:id/btn_close_dialog_amend_cover_date"]')))  # Got it dialogue pop up
+        el.click()
 
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.Button[@resource-id="insure.agencify.agencify:id/addClien"]')))  # Select a client button
+        el.click()
 
-if __name__ == '__main__':
-    unittest.main()
+        self.select_client_pullup_screen()
+
+    def select_client_pullup_screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '(//android.widget.RadioButton[@resource-id="insure.agencify.agencify:id/radiobutton"])[3]')))
+        el.click()
+
+        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
+        el.click()
+
+    if __name__ == '__main__':
+        unittest.main()
