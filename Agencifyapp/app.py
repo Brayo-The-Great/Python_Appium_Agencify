@@ -50,10 +50,8 @@ class TestAppium(unittest.TestCase):
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Email"]').send_keys(
             "brian.muraya@agencify.insure")
-        el.click()
 
         el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Password"]').send_keys("12345678")
-        el.click()
 
         el = WebDriverWait(self.driver, 60).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Login"]')))
@@ -110,23 +108,13 @@ class TestAppium(unittest.TestCase):
 
     def complete_information_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@text="Make"]'))).send_keys("BMW")
+            (By.XPATH, '//*[@text="Make"]'))).send_keys("TOYOTA")
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/layoutInfo"]')))
-        el.click()
+            (By.XPATH, '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys("CROWN")
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH,
-             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys(
-            "X7")
-
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@text="Body type"]'))).send_keys("STATION WAGON")
-
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/layoutInfo"]')))
-        el.click()
+            (By.XPATH, '//*[@text="Body type"]'))).send_keys("SEDAN")
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
@@ -178,11 +166,19 @@ class TestAppium(unittest.TestCase):
     def select_client_pullup_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
-             '(//android.widget.RadioButton[@resource-id="insure.agencify.agencify:id/radiobutton"])[3]')))
-        el.click()
+             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/search_src_text"]'))).send_keys("Muraya")  # This search for Muraya is not yet working
 
-        el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="QA ORG"]')))
         el.click()
+        #
+        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+        #     (By.XPATH,
+        #      '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/container"]')))
+        # el.click()
+
+        # el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
+        # el.click()
 
     if __name__ == '__main__':
         unittest.main()
