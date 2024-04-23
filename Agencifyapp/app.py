@@ -21,7 +21,8 @@ capabilities = dict(
     language='en',
     locale='US',
     autoGrantPermissions='true',
-    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/2.12.18.0staging.apk'
+    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/2.12.18.0staging.apk',
+    enableMultiWindows=True
 
 )
 
@@ -166,15 +167,20 @@ class TestAppium(unittest.TestCase):
     def select_client_pullup_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
-             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/search_src_text"]'))).send_keys("Muraya")  # This search for Muraya is not yet working
+             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/search_src_text"]'))).send_keys("muraya")  # This search for Muraya is not yet working
+        el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@text="QA ORG"]')))
+            (By.XPATH,
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/container"]')))
         el.click()
-        #
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '(//android.widget.RadioButton[@resource-id="insure.agencify.agencify:id/radiobutton"])[1]')))
+
         # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-        #     (By.XPATH,
-        #      '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/container"]')))
+        #     (By.XPATH, '//*[@text="QA ORG"]')))
         # el.click()
 
         # el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
