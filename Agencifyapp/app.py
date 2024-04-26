@@ -2,6 +2,8 @@ import unittest
 from time import sleep
 from typing import Any, Dict
 from datetime import datetime
+
+import self
 from appium import webdriver
 # from appium.webdriver.common.touch_action import TouchAction
 import time
@@ -21,7 +23,7 @@ capabilities = dict(
     language='en',
     locale='US',
     autoGrantPermissions='true',
-    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/2.12.18.0staging.apk',
+    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/app (2).apk',
     enableMultiWindows=True
 
 )
@@ -112,7 +114,9 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//*[@text="Make"]'))).send_keys("TOYOTA")
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys("CROWN")
+            (By.XPATH,
+             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/model"]'))).send_keys(
+            "CROWN")
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Body type"]'))).send_keys("SEDAN")
@@ -166,25 +170,132 @@ class TestAppium(unittest.TestCase):
 
     def select_client_pullup_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Aaaaa Aaaaa"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
+        el.click()
+
+        self.Quote_Schedule_Screen()
+
+    def Quote_Schedule_Screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Schedules"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Basic info"]')))
+        el.click()
+
+        self.Schedule_basic_info_screen()
+
+    def Schedule_basic_info_screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/logBookNo"]'))).send_keys(
+            "UFHucbsknbn")  # Log book no
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/chassis"]'))).send_keys(
+            "cmnwbibsj34v")  # Chasis no
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/colorTxt"]'))).send_keys(
+            "Black")  # Color
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/sittingTxt"]'))).send_keys(
+            "8")  # Sitting capacity
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/cubicTxt"]'))).send_keys(
+            "2000")  # Cubic capacity
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
-             '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/search_src_text"]'))).send_keys("muraya")  # This search for Muraya is not yet working
+             '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/yearReg"]')))  # Year of registration
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="SET"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/btnContinue"]')))  # Continue
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Save"]')))
+        el.click()
+
+        self.Valuer_Information_Screen()
+
+    def Valuer_Information_Screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Valuer Information"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Head Office"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Continue"]')))
+        el.click()
+
+        self.Documents_Uploads_Screen()
+
+    def Documents_Uploads_Screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Documents"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[1]')))  # Driving License
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@content-desc="Shutter"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[2]')))  # Logbook
+        el.click()
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@content-desc="Shutter"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
-             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/container"]')))
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[3]')))  # National ID
+        el.click()
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH,
-             '(//android.widget.RadioButton[@resource-id="insure.agencify.agencify:id/radiobutton"])[1]')))
+            (By.XPATH, '//android.widget.ImageView[@content-desc="Shutter"]')))
+        el.click()
 
-        # el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-        #     (By.XPATH, '//*[@text="QA ORG"]')))
-        # el.click()
-
-        # el = self.driver.find_element(by=AppiumBy.XPATH, value='//*[@text="Continue"]')
-        # el.click()
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
+        el.click()
 
     if __name__ == '__main__':
         unittest.main()
