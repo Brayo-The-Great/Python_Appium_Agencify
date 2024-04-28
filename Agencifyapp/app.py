@@ -13,7 +13,7 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import ElementNotVisibleException, NoSuchElementException
+from selenium.common.exceptions import ElementNotVisibleException, NoSuchElementException, TimeoutException
 
 capabilities = dict(
     platformName='Android',
@@ -126,10 +126,8 @@ class TestAppium(unittest.TestCase):
              '(//android.widget.ImageButton[@resource-id="insure.agencify.agencify:id/text_input_end_icon"])[4]')))
         el.click()
 
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH,
-             '//*[@text="2024"]')))
-        el.click()
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
+                                 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="SET"]')))
@@ -169,9 +167,18 @@ class TestAppium(unittest.TestCase):
         self.select_client_pullup_screen()
 
     def select_client_pullup_screen(self):
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//*[@text="Aaaaa Aaaaa"]')))
-        el.click()
+        try:
+            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+                (By.XPATH, '//*[@text="Aaaaa Aaaaa"]')))
+            el.click()
+        except TimeoutException:
+            # Scroll to the beginning of the scrollable view
+            self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
+                                     'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
+            # Wait for the element to be clickable again
+            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+                (By.XPATH, '//*[@text="Aaaaa Aaaaa"]')))
+            el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
@@ -295,6 +302,55 @@ class TestAppium(unittest.TestCase):
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
+        el.click()
+
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToEnd(5)')
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[3]')))  # Backside of National ID
+        el.click()
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@content-desc="Shutter"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Continue"]')))
+        el.click()
+
+        self.Payment_Verification()
+
+    def Payment_Verification(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="Continue to payment"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[1]/android.view.View'))).send_keys("1")
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]/android.view.View'))).send_keys("0")
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[3]/android.view.View'))).send_keys("1")
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[4]/android.view.View'))).send_keys("0")
+
         el.click()
 
     if __name__ == '__main__':
