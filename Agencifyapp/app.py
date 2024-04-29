@@ -1,21 +1,13 @@
 import unittest
-from argparse import Action
-from time import sleep
-from typing import Any, Dict
-from datetime import datetime
 
-import self
 from appium import webdriver
-# from appium.webdriver.common.touch_action import TouchAction
-import time
 from appium.options.android import UiAutomator2Options
-from appium.options.common import AppiumOptions
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import ElementNotVisibleException, NoSuchElementException, TimeoutException
+from selenium.webdriver.support.wait import WebDriverWait
 
 capabilities = dict(
     platformName='Android',
@@ -130,9 +122,6 @@ class TestAppium(unittest.TestCase):
              '(//android.widget.ImageButton[@resource-id="insure.agencify.agencify:id/text_input_end_icon"])[4]')))
         el.click()
 
-        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
-                                 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
-
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="SET"]')))
         el.click()
@@ -172,16 +161,13 @@ class TestAppium(unittest.TestCase):
 
     def select_client_pullup_screen(self):
         try:
-            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            el = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
                 (By.XPATH, '//*[@text="QA QA"]')))
             el.click()
         except TimeoutException:
-            # Scroll to the beginning of the scrollable view
-            self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
-                                     'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
-            # Wait for the element to be clickable again
-            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-                (By.XPATH, '//*[@text="Aaaaa Aaaaa"]')))
+            self.driver.execute_script("mobile: scroll", {"direction": "up"})
+            el = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
+                (By.XPATH, '//*[@text="QA QA"]')))
             el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
