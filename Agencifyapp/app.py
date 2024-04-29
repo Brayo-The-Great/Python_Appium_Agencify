@@ -1,4 +1,5 @@
 import unittest
+from argparse import Action
 from time import sleep
 from typing import Any, Dict
 from datetime import datetime
@@ -10,6 +11,7 @@ import time
 from appium.options.android import UiAutomator2Options
 from appium.options.common import AppiumOptions
 from appium.webdriver.common.appiumby import AppiumBy
+from selenium.webdriver import ActionChains
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -24,7 +26,9 @@ capabilities = dict(
     locale='US',
     autoGrantPermissions='true',
     app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/app (2).apk',
-    enableMultiWindows=True
+    enableMultiWindows=True,
+    unicodeKeyboard=False,
+    resetKeyboard=False
 
 )
 
@@ -85,10 +89,10 @@ class TestAppium(unittest.TestCase):
     def create_quote_screen(self):
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[1]').send_keys(
-            "KQA 324S")
+            "KMM 330K")
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[2]').send_keys(
-            "3000000")
+            "2000000")
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.view.View[''1]/android.widget'
                                             '.EditText/android.widget.Button')
@@ -169,7 +173,7 @@ class TestAppium(unittest.TestCase):
     def select_client_pullup_screen(self):
         try:
             el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-                (By.XPATH, '//*[@text="Aaaaa Aaaaa"]')))
+                (By.XPATH, '//*[@text="QA QA"]')))
             el.click()
         except TimeoutException:
             # Scroll to the beginning of the scrollable view
@@ -258,7 +262,8 @@ class TestAppium(unittest.TestCase):
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[1]')))  # Driving License
+            (By.XPATH,
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[1]')))  # Driving License
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
@@ -274,7 +279,8 @@ class TestAppium(unittest.TestCase):
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[2]')))  # Logbook
+            (By.XPATH,
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[2]')))  # Logbook
         el.click()
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
@@ -304,12 +310,14 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
         el.click()
 
-        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToEnd(5)')
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
+                                 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToEnd(5)')
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
-             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[3]')))  # Backside of National ID
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[4]')))  # Backside of National ID
         el.click()
+
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
         el.click()
@@ -326,31 +334,50 @@ class TestAppium(unittest.TestCase):
             (By.XPATH, '//*[@text="Continue"]')))
         el.click()
 
-        self.Payment_Verification()
+        self.Payment_Consent()
 
-    def Payment_Verification(self):
+    def Payment_Consent(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Continue to payment"]')))
         el.click()
 
+        element_xpath = '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[1]/android.view.View'
+        element = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((By.XPATH, element_xpath)))
+        element.click()
+        action = ActionChains(self.driver)
+        action.send_keys("1").perform()
+
+        element_xpath = '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]/android.view.View'
+        element = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((By.XPATH, element_xpath)))
+        element.click()
+        action = ActionChains(self.driver)
+        action.send_keys("0").perform()
+
+        element_xpath = '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[3]/android.view.View'
+        element = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((By.XPATH, element_xpath)))
+        element.click()
+        action = ActionChains(self.driver)
+        action.send_keys("1").perform()
+
+        element_xpath = '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[4]/android.view.View'
+        element = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((By.XPATH, element_xpath)))
+        element.click()
+        action = ActionChains(self.driver)
+        action.send_keys("0").perform()
+
+        self.Make_Payment()
+
+    def Make_Payment(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[1]/android.view.View'))).send_keys("1")
+            (By.XPATH, '//*[@text="Continue"]')))
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH,
-             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[2]/android.view.View'))).send_keys("0")
+            (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/icShare"]')))
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH,
-             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[3]/android.view.View'))).send_keys("1")
-        el.click()
-
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH,
-             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.widget.EditText[4]/android.view.View'))).send_keys("0")
-
+            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/pay"]')))
         el.click()
 
     if __name__ == '__main__':
