@@ -81,7 +81,7 @@ class TestAppium(unittest.TestCase):
     def create_quote_screen(self):
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[1]').send_keys(
-            "KMM 330K")
+            "KLP 111N")
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[2]').send_keys(
             "2000000")
@@ -134,12 +134,27 @@ class TestAppium(unittest.TestCase):
 
     def quote_comparison_screen(self):
         el = WebDriverWait(self.driver, 180).until(EC.element_to_be_clickable(
-            (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[1]')))
+            (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[2]')))
         el.click()
 
         self.quote_details_screen()
 
     def quote_details_screen(self):
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.view.ViewGroup[@resource-id="insure.agencify.agencify:id/selectPlan"]/android.widget.ImageView')))  # Select Payment Plan
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View/android.view.View[1]/android.view.View[3]')))  # 40:30:30
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//*[@text="Save"]')))
+        el.click()
+
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/buy"]')))
         el.click()
@@ -165,10 +180,15 @@ class TestAppium(unittest.TestCase):
                 (By.XPATH, '//*[@text="QA QA"]')))
             el.click()
         except TimeoutException:
-            self.driver.execute_script("mobile: scroll", {"direction": "up"})
-            el = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
-                (By.XPATH, '//*[@text="QA QA"]')))
-            el.click()
+            for _ in range(5):  # Scroll 5 times upwards
+                self.driver.execute_script("mobile: scroll", {"direction": "up"})
+                try:
+                    el = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
+                        (By.XPATH, '//*[@text="QA QA"]')))
+                    el.click()
+                    break  # Break the loop if element found after scrolling
+                except TimeoutException:
+                    pass  # Continue scrolling if element not found
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
@@ -190,11 +210,11 @@ class TestAppium(unittest.TestCase):
     def Schedule_basic_info_screen(self):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/logBookNo"]'))).send_keys(
-            "UFHucbsknbn")  # Log book no
+            "678FGV41cbsk")  # Log book no
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/chassis"]'))).send_keys(
-            "cmnwbibsj34v")  # Chasis no
+            "9876456789OG7sj34v")  # Chasis no
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/colorTxt"]'))).send_keys(
@@ -301,7 +321,24 @@ class TestAppium(unittest.TestCase):
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH,
-             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[4]')))  # Backside of National ID
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[3]')))  # Backside of National ID
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@resource-id="insure.agencify.agencify:id/btn_camera"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageView[@content-desc="Shutter"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.ImageButton[@content-desc="Done"]')))
+        el.click()
+
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH,
+             '//android.widget.FrameLayout[@resource-id="insure.agencify.agencify:id/nav_host_fragment"]/androidx.compose.ui.platform.ComposeView/android.view.View/android.view.View[1]/android.view.View[4]')))  # KRA PIN
         el.click()
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
