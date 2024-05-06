@@ -1,4 +1,7 @@
 import unittest
+from datetime import time
+import random
+import string
 
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
@@ -79,9 +82,10 @@ class TestAppium(unittest.TestCase):
         self.create_quote_screen()
 
     def create_quote_screen(self):
+        risk_id = self.generate_unique_sequence()
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[1]').send_keys(
-            "KEE 000H")
+            risk_id)
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[2]').send_keys(
             "2500000")
@@ -121,6 +125,9 @@ class TestAppium(unittest.TestCase):
             (By.XPATH,
              '(//android.widget.ImageButton[@resource-id="insure.agencify.agencify:id/text_input_end_icon"])[4]')))
         el.click()
+
+        # self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
+        #                          'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="SET"]')))
@@ -165,18 +172,23 @@ class TestAppium(unittest.TestCase):
                 (By.XPATH, '//*[@text="QA QA"]')))
             el.click()
         except TimeoutException:
-            for _ in range(5):  # Scroll 5 times upwards
-                self.driver.execute_script("mobile: scroll", {"direction": "up"})
-                try:
-                    el = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
-                        (By.XPATH, '//*[@text="QA QA"]')))
-                    el.click()
-                    break  # Break the loop if element found after scrolling
-                except TimeoutException:
-                    pass  # Continue scrolling if element not found
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
-        el.click()
+            try:
+                el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@text="QA QA"]')))
+                el.click()
+            except TimeoutException:
+                self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
+                                         'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
+
+                el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
+                    (By.XPATH, '//*[@text="QA QA"]')))
+                el.click()
+
+            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+                (By.XPATH,
+                 '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
+            el.click()
+
         self.Quote_Schedule_Screen()
 
     def Quote_Schedule_Screen(self):
@@ -191,13 +203,15 @@ class TestAppium(unittest.TestCase):
         self.Schedule_basic_info_screen()
 
     def Schedule_basic_info_screen(self):
+        log_book_no = self.generate_random_string(10)  # Generating log book number
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/logBookNo"]'))).send_keys(
-            "U02496441cbsk")  # Log book no
+            log_book_no)  # Log book no
 
+        chassis_no = self.generate_random_string(10)  # Generating chassis number
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/chassis"]'))).send_keys(
-            "4lfBSUIUIw7sj34v")  # Chasis no
+            chassis_no)  # Chassis no
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.EditText[@resource-id="insure.agencify.agencify:id/colorTxt"]'))).send_keys(
@@ -385,6 +399,34 @@ class TestAppium(unittest.TestCase):
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/pay"]')))
         el.click()
+
+        # Set to store generated random strings
+
+    generated_strings = set()
+
+    # Set to store generated sequences
+    existing_sequences = set()
+
+    @staticmethod
+    def generate_unique_sequence():
+        while True:
+            # Generate random characters
+            first_letter = 'K'
+            second_letter = random.choice(string.ascii_uppercase)
+            third_letter = random.choice(string.ascii_uppercase)
+            digits = ''.join(random.choices(string.digits, k=3))
+            fourth_letter = random.choice(string.ascii_uppercase)
+
+            sequence = f"{first_letter}{second_letter}{third_letter} {digits}{fourth_letter}"
+
+            # Check if the generated sequence is unique
+            if sequence not in TestAppium.existing_sequences:
+                TestAppium.existing_sequences.add(sequence)
+                return sequence
+
+    @staticmethod
+    def generate_random_string(length):
+        return ''.join(random.choice(string.ascii_uppercase) for _ in range(length))
 
     if __name__ == '__main__':
         unittest.main()
