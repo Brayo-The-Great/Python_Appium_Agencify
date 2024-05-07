@@ -3,12 +3,12 @@ from datetime import time
 import random
 import string
 
-import self
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -185,27 +185,17 @@ class TestAppium(unittest.TestCase):
         self.select_client_pullup_screen()
 
     def select_client_pullup_screen(self):
-        try:
-            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-                (By.XPATH, '//*[@text="QA QA"]')))
-            el.click()
-        except TimeoutException:
-            # Scroll to find the element
-            scroll_command = 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(6)'
-            self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, scroll_command)
+        search_xpath = '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/search_src_text"]'
+        element = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((By.XPATH, search_xpath)))
+        element.click()
+        action = ActionChains(self.driver)
+        action.send_keys("mur").perform()
 
-            # Add a wait after scrolling to ensure it completes
-            time.sleep(2)  # Adjust as needed
+        el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="QQ"]')))
+        el.click()
+        self.driver.hide_keyboard()
 
-            # Check if element is now visible
-            try:
-                el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
-                    (By.XPATH, '//*[@text="QA QA"]')))
-                el.click()
-            except TimeoutException:
-                print("Element not found even after scrolling")
-
-        # Continue with the rest of your code
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
             (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
         el.click()

@@ -8,6 +8,7 @@ from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -167,27 +168,20 @@ class TestAppium(unittest.TestCase):
         self.select_client_pullup_screen()
 
     def select_client_pullup_screen(self):
-        try:
-            el = WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable(
-                (By.XPATH, '//*[@text="QA QA"]')))
-            el.click()
-        except TimeoutException:
-            try:
-                el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
-                    (By.XPATH, '//*[@text="QA QA"]')))
-                el.click()
-            except TimeoutException:
-                self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
-                                         'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToBeginning(5)')
+        search_xpath = '//android.widget.AutoCompleteTextView[@resource-id="insure.agencify.agencify:id/search_src_text"]'
+        element = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable((By.XPATH, search_xpath)))
+        element.click()
+        action = ActionChains(self.driver)
+        action.send_keys("mur").perform()
 
-                el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
-                    (By.XPATH, '//*[@text="QA QA"]')))
-                el.click()
+        el = WebDriverWait(self.driver, 30).until(EC.element_to_be_clickable(
+            (By.XPATH, '//*[@text="QQ"]')))
+        el.click()
+        self.driver.hide_keyboard()
 
-            el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
-                (By.XPATH,
-                 '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
-            el.click()
+        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+            (By.XPATH, '//android.widget.Button[@resource-id="insure.agencify.agencify:id/link"]')))  # Continue Button
+        el.click()
 
         self.Quote_Schedule_Screen()
 
