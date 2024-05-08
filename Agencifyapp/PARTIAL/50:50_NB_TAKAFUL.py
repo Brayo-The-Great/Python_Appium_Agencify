@@ -141,8 +141,11 @@ class TestAppium(unittest.TestCase):
         self.quote_comparison_screen()
 
     def quote_comparison_screen(self):
+        self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
+                                 'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToEnd(5)')
+
         el = WebDriverWait(self.driver, 180).until(EC.element_to_be_clickable(
-            (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[2]')))
+            (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[3]')))
         el.click()
 
         self.quote_details_screen()

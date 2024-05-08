@@ -89,7 +89,7 @@ class TestAppium(unittest.TestCase):
             risk_id)
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.widget.EditText[2]').send_keys(
-            "5000000")
+            "1400000")
         el = self.driver.find_element(by=AppiumBy.XPATH,
                                       value='//android.widget.ScrollView/android.view.View[''1]/android.widget'
                                             '.EditText/android.widget.Button')
