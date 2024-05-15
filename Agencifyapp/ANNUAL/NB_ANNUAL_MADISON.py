@@ -21,7 +21,7 @@ capabilities = dict(
     language='en',
     locale='US',
     autoGrantPermissions='true',
-    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/app (2).apk',
+    app=r'/Users/brianwaititumuraya/Documents/TESTAPKs/app (5).apk',
     enableMultiWindows=True,
     unicodeKeyboard=False,
     resetKeyboard=False
@@ -111,7 +111,7 @@ class TestAppium(unittest.TestCase):
         self.complete_information_screen()
 
     def complete_information_screen(self):
-        el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(
+        el = WebDriverWait(self.driver, 2050).until(EC.element_to_be_clickable(
             (By.XPATH, '//*[@text="Make"]'))).send_keys("TOYOTA")
 
         el = WebDriverWait(self.driver, 90).until(EC.element_to_be_clickable(

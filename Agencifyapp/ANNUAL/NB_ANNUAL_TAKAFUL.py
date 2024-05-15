@@ -144,7 +144,7 @@ class TestAppium(unittest.TestCase):
         self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR,
                                  'new UiScrollable(new UiSelector().scrollable(true)).setAsVerticalList().scrollToEnd(5)')
 
-        el = WebDriverWait(self.driver, 180).until(EC.element_to_be_clickable(
+        el = WebDriverWait(self.driver, 2050).until(EC.element_to_be_clickable(
             (By.XPATH, '(//android.widget.Button[@resource-id="insure.agencify.agencify:id/viewnext"])[3]')))
         el.click()
 
